@@ -1,6 +1,6 @@
 from pathlib import Path
 
-def function(path, name=..., **kw):
+def function(path, name=..., globals=..., locals=..., **kw):
     if not isinstance(path, Path): path = Path(path)
     if name is ...: name = str(path).replace('.py', '').replace('/', '_')
     script = path.read_text()
@@ -9,6 +9,7 @@ def function(path, name=..., **kw):
     {'\n    '.join(lines)}"""
     #print (f"'{script}'")
     code = compile(script, f"<{path}>", 'exec', **kw)
-    body = dict()
-    exec(code, locals=body)
-    return body[name]
+    if globals is ...: globals = dict()
+    if locals is ...: locals = dict()
+    exec(code, globals=dict(), locals=locals)
+    return locals[name]
