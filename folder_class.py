@@ -7,8 +7,7 @@ def Class(path, name=..., bases=(), globals=..., **kw):
     body = {}
     for fp in path.glob('*.py'):
         key = str(fp).replace('.py', '').replace('/', '_').replace(f'{name}\\', '')
-        print ("#653\t", fp, '->', key)
-        input()
+        print ("nuthon/folder_class.py(Class)\t", fp, '->', key)
         body[key] = function(fp, name, globals=globals, **kw)
     klass = type(name, bases, body, **kw)
     return klass
