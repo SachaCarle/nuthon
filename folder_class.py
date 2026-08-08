@@ -13,6 +13,7 @@ class folder_meta(type):
 def Class(bases, path, name=..., body=..., meta_args=None, **kw):
     if not isinstance(bases, (tuple, list)): bases = (bases, )
     if not isinstance(path, Path): path = Path(path)
+    assert path.exists(), path
     if name is ...: name = path.stem
     if body is ...: body = {}
     for fp in path.glob('*.py'):

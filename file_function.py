@@ -12,5 +12,4 @@ def {name}(*args, **kwargs):
     if globals is ...: globals = dict()
     if locals is ...: locals = dict()
     exec(code, globals=dict(), locals=locals)
-    print ("file_function.py", locals[name])
     return locals[name]
