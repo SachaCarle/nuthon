@@ -6,7 +6,7 @@ from .file_function import Path, function
 class folder_meta(type):
     def __getattribute__(self, key) -> Any:
         r = super().__getattribute__(key)
-        if type(r).__name__ == "function":
+        if isinstance(self, type) and type(r).__name__ == "function":
             return partial(r, self)
         return r
 
