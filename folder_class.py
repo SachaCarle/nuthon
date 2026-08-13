@@ -19,21 +19,6 @@ def Class(bases, path, name=..., body=..., meta_args=None, **kw):
     for fp in path.glob('*.py'):
         key = fp.stem
         body[key] = function(fp, key, globals=body, **kw)
-    klass = new_class(name, bases=bases, kwds=dict(metaclass=folder_meta) if meta_args is None else meta_args, 
+    klass = new_class(name, bases=bases, kwds=dict(metaclass=folder_meta) if meta_args is None else meta_args,
         exec_body=lambda kb: kb.update(body))
-    return klass  # pas besoins de bindery ?!
-    for k, bt in body.items():
-        # Here
-        if callable(bt):
-            print ("bind the fuck out of them\n\t", 
-k, "\n", bt, "\n", getattr(klass, k), "\n", getattr(klass, k) is bt)
     return klass
-    
-    
-    
-    
-    
-    
-    
-    
-    
