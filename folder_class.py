@@ -13,7 +13,15 @@ class folder_meta(type):
         for key, value in body.items():
             if hasattr(value, '__isabstractmethod__'):
                 if value.__isabstractmethod__:
-                    raise NotImplementedError(f"Folder-Class {name} has not implemented abstract method {key}.")
+                    raise NotImplementedError(f"{name} has not implemented abstract method {key}.")
+        if hasattr(self, '__bases__'):
+            for base in self.__bases__:
+                for key, value in base.__dict__.items():
+                    if hasattr(value, '__isabstractmethod__'):
+                        if value.__isabstractmethod__:
+                            print ("<abstract method down>", key, value)
+                            if hasattr(body, key) and not getattr(body, key)/__isabstractmethod__: continue
+                            else: raise NotImplementedError(f"{name} has not implemented abstract method {key} defined in {base}.")
         # ABSTRACT METHOD VERIFICATION
         instance = super().__call__(*args, **kwargs)
         return instance
