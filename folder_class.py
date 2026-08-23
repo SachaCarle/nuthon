@@ -10,18 +10,24 @@ class folder_meta(type):
     def __call__(self, *args, **kwargs):
         name = self.__name__
         body = self.__dict__
+        abstracts = []
+        abstract_bases = []
         for key, value in body.items():
             if hasattr(value, '__isabstractmethod__'):
                 if value.__isabstractmethod__:
-                    raise NotImplementedError(f"{name} has not implemented abstract method {key}.")
+                    raise NotImplementedError(f"Can't instantiate abstract class {self.__name__}")
         if hasattr(self, '__bases__'):
             for base in self.__bases__:
                 for key, value in base.__dict__.items():
                     if hasattr(value, '__isabstractmethod__'):
                         if value.__isabstractmethod__:
-                            print ("<abstract method down>", key, value)
-                            if hasattr(body, key) and not getattr(body, key)/__isabstractmethod__: continue
-                            else: raise NotImplementedError(f"{name} has not implemented abstract method {key} defined in {base}.")
+                            if hasattr(body, key) and not getattr(body, key).__isabstractmethod__: continue
+                            else:
+                                abstracts.append(key)
+                                if not (base.__name__ in abstract_bases):
+                                    abstract_bases.append(base.__name__)
+        if len(abstracts):
+            raise NotImplementedError(f"{name} has not implemented abstract method {', '.join(abstracts)} defined in {', '.join(abstract_bases)}.")
         # ABSTRACT METHOD VERIFICATION
         instance = super().__call__(*args, **kwargs)
         return instance
